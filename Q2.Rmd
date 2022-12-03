@@ -1,0 +1,31 @@
+---
+title: "Q2_Rmarkdown"
+author: "JYPark"
+date: "2022-12-03"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Q2-1
+```{r}
+library(tableone);library(data.table);library(magrittr);library(survival);library(jstable)
+url <- "https://raw.githubusercontent.com/jinseob2kim/lecture-snuhlab/master/data/example_g1e.csv"
+res.reg <- glm(time ~ rx + age + sex, data = colon)
+tb.reg <- glmshow.display(res.reg)
+knitr::kable(tb.reg$table, caption = tb.reg$first.line)
+```
+Q2-2
+```{r}
+res.logistic <- glm(status ~ rx + age + sex, data = colon, family = binomial)
+tb.logistic <- glmshow.display(res.logistic)   
+knitr::kable(tb.logistic$table, caption = tb.logistic$first.line)
+```
+Q2-3
+```{r}
+res.cox <- coxph(Surv(time, status) ~ rx + age + sex, data = colon, model = T)
+tb.cox <- cox2.display(res.cox)   
+knitr::kable(tb.cox$table, caption = tb.cox$caption)
+```
